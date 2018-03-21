@@ -4,6 +4,7 @@ package com.mtechnologies.martin.bulsuapp;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -32,6 +33,7 @@ import com.mtechnologies.martin.bulsuapp.utilities.Callback;
 
 import com.mtechnologies.martin.bulsuapp.api.LoginRequest;
 import com.mtechnologies.martin.bulsuapp.utilities.LoginCallback;
+import com.mtechnologies.martin.bulsuapp.utilities.MyGradesCallback;
 import com.mtechnologies.martin.bulsuapp.utilities.RetrofitUtil;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoginCallback  {
+public class LoginActivity extends AppCompatActivity implements LoginCallback {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -148,12 +150,7 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback  {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    private LoginToken token(){
-        LoginToken mToken =new LoginToken();
-        mToken.setEmail(mEmailView.getText().toString().trim());
-        mToken.setPassword(mPasswordView.getText().toString().trim());
-        return mToken;
-    }
+
 
     public void login(){
         if (isValid()) {
@@ -164,10 +161,13 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback  {
 
 
 
+
+
     @Override
     public void login(LoginResponse token) {
         if (token.getSucccess().toString().equalsIgnoreCase("true")){
-            Toast.makeText(this,"Good",Toast.LENGTH_SHORT).show();
+            Intent intent =new Intent(this,MainActivity.class);
+            startActivity(intent);
         } else{
             Toast.makeText(this,"Invalid username/password",Toast.LENGTH_SHORT).show();
         }

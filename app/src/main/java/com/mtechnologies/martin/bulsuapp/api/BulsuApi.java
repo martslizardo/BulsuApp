@@ -20,4 +20,11 @@ public interface BulsuApi {
     @FormUrlEncoded
     @POST("/login/verifylogin")
     Call<ResponseBody> login(@Field("username") String username,@Field("password") String password);
+
+
+    @FormUrlEncoded
+    @POST("/grades/txn/get/grades")
+    Call<ResponseBody> myGrades(@Field("student") String studenID,@Field("term") String term);
+
+
 }
