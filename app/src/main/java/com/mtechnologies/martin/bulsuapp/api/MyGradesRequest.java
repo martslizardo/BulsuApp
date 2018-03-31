@@ -35,7 +35,6 @@ public class MyGradesRequest implements Callback<ResponseBody> {
         BulsuApi bsuApi = retrofit.create(BulsuApi.class);
         Call<ResponseBody> call = bsuApi.myGrades(studentID,term);
         call.enqueue(this);
-
     }
 
 
@@ -45,9 +44,10 @@ public class MyGradesRequest implements Callback<ResponseBody> {
         try{
             Gson gson = new GsonBuilder().create();
             MyGrades myGrades = new MyGrades();
-            String result = "";
+            String result,result2 = "";
             if (response.isSuccessful()){
                 result = response.body().string();
+
                 MyGradesResponse gradesResponse =gson.fromJson(result, MyGradesResponse .class);
                 Log.i("header",result);
                 myGrades.setSuccess(gradesResponse.getSuccess());

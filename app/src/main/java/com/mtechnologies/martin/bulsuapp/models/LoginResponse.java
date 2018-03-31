@@ -5,6 +5,20 @@ package com.mtechnologies.martin.bulsuapp.models;
  */
 
 public class LoginResponse {
+
+    private String succcess;
+    private String content;
+    private String error;
+    private String cookie;
+    public String getCookie() {
+        return cookie;
+    }
+
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
+    }
+
+
     public String getSucccess() {
         return succcess;
     }
@@ -12,14 +26,6 @@ public class LoginResponse {
     public void setSucccess(String succcess) {
         this.succcess = succcess;
     }
-
-    private String succcess;
-
-
-
-    private String content;
-    private String error;
-
 
     public String getContent() {
         return content;

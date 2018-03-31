@@ -34,6 +34,7 @@ public class RetrofitUtil {
     }
 
     public Retrofit getRetrofitInstance(){
+
         return retrofit;
     }
 

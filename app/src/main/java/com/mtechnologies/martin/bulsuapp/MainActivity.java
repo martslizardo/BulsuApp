@@ -1,8 +1,10 @@
 package com.mtechnologies.martin.bulsuapp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,19 +19,31 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mtechnologies.martin.bulsuapp.api.MyGradesRequest;
+import com.mtechnologies.martin.bulsuapp.api.MyProfileRequest;
+import com.mtechnologies.martin.bulsuapp.models.CurrentUser;
 import com.mtechnologies.martin.bulsuapp.models.MyGrades;
+import com.mtechnologies.martin.bulsuapp.utilities.Callback;
 import com.mtechnologies.martin.bulsuapp.utilities.MyGradesCallback;
+import com.mtechnologies.martin.bulsuapp.utilities.RetrofitUtil;
+import com.mtechnologies.martin.bulsuapp.utilities.SessionManager;
+
+import java.util.HashMap;
+
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,MyGradesCallback {
+        implements NavigationView.OnNavigationItemSelectedListener {
     EditText txtStudentID;
+    private CurrentUser mCurrentUser;
+
+    int i=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        SessionManager session =new SessionManager(getApplicationContext());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,15 +62,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Button btnGrades =(Button)findViewById(R.id.btn_grades);
 
-        txtStudentID=(EditText)findViewById(R.id.txtStudentID);
-        btnGrades.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    viewGrades();
-            }
-        });
+
+        session.checkLogin();
+
+        new MyProfileRequest(callback,SessionManager.KEY_COOKIE);
+
+
     }
 
     @Override
@@ -77,18 +89,15 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void viewGrades(){
-        MyGradesRequest myGradesRequest=new MyGradesRequest(txtStudentID.getText().toString(),"415",this);
+    private Callback<CurrentUser> callback= new Callback<CurrentUser>() {
+        @Override
+        public void result(CurrentUser currentUser) {
+            mCurrentUser = currentUser;
+            Log.i("mCurrentUser", mCurrentUser.toString());
 
-    }
+        }
+    };
 
-    @Override
-    public void myGrades(MyGrades myGrades){
-       if(myGrades.getSuccess().equalsIgnoreCase("true")){
-           Toast.makeText(getApplicationContext(), myGrades.getContent(),
-                   Toast.LENGTH_LONG).show();
-       }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,13 +124,7 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        }  else if (id == R.id.nav_share) {
 
         }
 
@@ -129,4 +132,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
 }

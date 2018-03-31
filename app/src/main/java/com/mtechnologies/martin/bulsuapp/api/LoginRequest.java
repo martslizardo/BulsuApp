@@ -10,6 +10,7 @@ import com.mtechnologies.martin.bulsuapp.models.LoginResponseSuccess;
 import com.mtechnologies.martin.bulsuapp.models.LoginToken;
 import com.mtechnologies.martin.bulsuapp.utilities.LoginCallback;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -47,19 +48,24 @@ public class LoginRequest implements Callback<ResponseBody> {
         try{
             Gson gson = new GsonBuilder().create();
             LoginResponse loginResponse = new LoginResponse();
-            String result = "";
+            String result,result2 = "";
             if (response.isSuccessful()){
                 result = response.body().string();
+                String cookie=response.headers().get("Set-Cookie").toString();
                 LoginResponseSuccess success =gson.fromJson(result,LoginResponseSuccess.class);
                 Log.i("header",result);
+                String split_cookie[]=cookie.split(";");
                 loginResponse.setSucccess(success.getSuccess());
                 loginResponse.setContent(success.getContent());
+                loginResponse.setCookie(split_cookie[0]);
+                Log.i("header",loginResponse.getCookie());
                 mCallback.login(loginResponse);
 
             }else{
                 result = response.errorBody().string();
                 Log.i("header",result);
                 loginResponse.setSucccess("false");
+                loginResponse.setCookie("");
                 mCallback.login(loginResponse);
 
 

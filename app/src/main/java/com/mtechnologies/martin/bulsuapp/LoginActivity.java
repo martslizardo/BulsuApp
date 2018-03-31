@@ -35,6 +35,7 @@ import com.mtechnologies.martin.bulsuapp.api.LoginRequest;
 import com.mtechnologies.martin.bulsuapp.utilities.LoginCallback;
 import com.mtechnologies.martin.bulsuapp.utilities.MyGradesCallback;
 import com.mtechnologies.martin.bulsuapp.utilities.RetrofitUtil;
+import com.mtechnologies.martin.bulsuapp.utilities.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -166,8 +166,11 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
     @Override
     public void login(LoginResponse token) {
         if (token.getSucccess().toString().equalsIgnoreCase("true")){
+            new SessionManager(this).createLoginSession(mEmailView.getText().toString(),token.getCookie());
             Intent intent =new Intent(this,MainActivity.class);
             startActivity(intent);
+            System.out.println(token.getCookie());
+
         } else{
             Toast.makeText(this,"Invalid username/password",Toast.LENGTH_SHORT).show();
         }

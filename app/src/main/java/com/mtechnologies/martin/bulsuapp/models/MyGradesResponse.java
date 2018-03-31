@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class MyGradesResponse {
-    @SerializedName("success")
+    @SerializedName("success                                                                                                ")
     private String success;
     @SerializedName("content")
     private String content;
