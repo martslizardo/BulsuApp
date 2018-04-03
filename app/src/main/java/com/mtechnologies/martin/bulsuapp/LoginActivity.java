@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
 
     public void login(){
         if (isValid()) {
-          LoginRequest loginRequest=new LoginRequest(mEmailView.getText().toString().trim(),mPasswordView.getText().toString().trim(),this);
+          LoginRequest loginRequest=new LoginRequest(mEmailView.getText().toString().trim(),mPasswordView.getText().toString().trim(),this,getApplicationContext());
 
         }
     }
@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
     @Override
     public void login(LoginResponse token) {
         if (token.getSucccess().toString().equalsIgnoreCase("true")){
-            new SessionManager(this).createLoginSession(mEmailView.getText().toString(),token.getCookie());
+            new SessionManager(this).createLoginSession(mEmailView.getText().toString());
             Intent intent =new Intent(this,MainActivity.class);
             startActivity(intent);
             System.out.println(token.getCookie());

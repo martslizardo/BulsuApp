@@ -10,6 +10,6 @@ import pl.droidsonroids.jspoon.annotation.Selector;
 
 public class Dashboard {
 
-    @Selector("title") public String profileName;
+    @Selector("Title") public String profileName;
     @Selector("#s1 >p")public List<String> profileDetails;
 }

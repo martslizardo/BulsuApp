@@ -2,6 +2,7 @@ package com.mtechnologies.martin.bulsuapp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -62,11 +63,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         session.checkLogin();
 
-        new MyProfileRequest(callback,SessionManager.KEY_COOKIE);
+        new MyProfileRequest(callback,getApplicationContext());
 
 
     }

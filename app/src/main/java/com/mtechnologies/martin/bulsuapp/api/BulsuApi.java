@@ -12,6 +12,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -31,6 +32,6 @@ public interface BulsuApi {
     @POST("/grades/txn/get/grades")
     Call<ResponseBody> myGrades(@Field("student") String studenID,@Field("term") String term);
 
-    @GET("/reevaluate")
-    Call<ResponseBody> myProfile(@Header("PHPSESSIONID")String session);
+    @GET("/profile")
+    Call<ResponseBody> myProfile();
 }

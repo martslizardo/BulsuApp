@@ -41,12 +41,11 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String email, String cookie) {
+    public void createLoginSession(String email) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
-        editor.putString(KEY_COOKIE, cookie);
 
         // Storing email in pref
         editor.putString(KEY_EMAIL, email);
