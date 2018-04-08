@@ -6,15 +6,15 @@ package com.mtechnologies.martin.bulsuapp.models;
 
 public class MyGrades {
 
-    private String success;
-
-    public String getSuccess() {
+    public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
+    public void setSuccess(boolean success) {
         this.success = success;
     }
+
+    private boolean success;
 
     public String getContent() {
         return content;

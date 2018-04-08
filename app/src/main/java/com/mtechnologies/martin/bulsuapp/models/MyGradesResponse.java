@@ -2,24 +2,28 @@ package com.mtechnologies.martin.bulsuapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by martin on 3/17/18.
  */
 
-public class MyGradesResponse {
-    @SerializedName("success                                                                                                ")
-    private String success;
-    @SerializedName("content")
-    private String content;
+public class MyGradesResponse  implements Serializable{
 
-
-    public String getSuccess() {
+    public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
+    public void setSuccess(boolean success) {
         this.success = success;
     }
+
+    private boolean success;
+
+    private String content;
+
+
+
 
     public String getContent() {
         return content;

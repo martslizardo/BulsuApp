@@ -50,14 +50,14 @@ public class MyGradesRequest implements Callback<ResponseBody> {
 
                 MyGradesResponse gradesResponse =gson.fromJson(result, MyGradesResponse .class);
                 Log.i("header",result);
-                myGrades.setSuccess(gradesResponse.getSuccess());
+                myGrades.setSuccess(true);
                 myGrades.setContent(Html.fromHtml(gradesResponse.getContent()).toString().trim());
                 mCallback.myGrades(myGrades);
 
             }else{
                 result = response.errorBody().string();
                 Log.i("header",result);
-                myGrades.setSuccess("false");
+                myGrades.setSuccess(false);
                 mCallback.myGrades(myGrades);
 
 

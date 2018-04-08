@@ -2,7 +2,9 @@ package com.mtechnologies.martin.bulsuapp.api;
 
 import com.mtechnologies.martin.bulsuapp.models.LoginToken;
 import com.mtechnologies.martin.bulsuapp.pages.Dashboard;
+import com.mtechnologies.martin.bulsuapp.pages.Term;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -33,5 +35,9 @@ public interface BulsuApi {
     Call<ResponseBody> myGrades(@Field("student") String studenID,@Field("term") String term);
 
     @GET("/profile")
-    Call<ResponseBody> myProfile();
+    Single<Dashboard> myProfile();
+
+    @GET("/grades")
+    Single<Term> myTerm();
+
 }

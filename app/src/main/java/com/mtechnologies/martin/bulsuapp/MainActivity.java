@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,6 +24,8 @@ import android.widget.Toast;
 
 import com.mtechnologies.martin.bulsuapp.api.MyGradesRequest;
 import com.mtechnologies.martin.bulsuapp.api.MyProfileRequest;
+import com.mtechnologies.martin.bulsuapp.fragments.GradesFragment;
+import com.mtechnologies.martin.bulsuapp.fragments.ProfileFragment;
 import com.mtechnologies.martin.bulsuapp.models.CurrentUser;
 import com.mtechnologies.martin.bulsuapp.models.MyGrades;
 import com.mtechnologies.martin.bulsuapp.utilities.Callback;
@@ -33,8 +38,9 @@ import java.util.HashMap;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,MyGradesCallback {
     EditText txtStudentID;
+    Button  btnGrades;
     private CurrentUser mCurrentUser;
 
     int i=0;
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
+//        btnGrades=(Button)findViewById(R.id.btn_grades);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -67,9 +73,20 @@ public class MainActivity extends AppCompatActivity
         StrictMode.setThreadPolicy(policy);
 
         session.checkLogin();
-
-        new MyProfileRequest(callback,getApplicationContext());
-
+//        txtStudentID=(EditText)findViewById(R.id.txtStudentID);
+//        btnGrades.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                viewGrades();
+//             }
+//        });
+//        Fragment fragment = null;
+//        fragment = new ProfileFragment();
+////HomeFragment= fragment class to launch that
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.content_main, fragment);
+//        fragmentTransaction.commit();
 
     }
 
@@ -91,14 +108,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private Callback<CurrentUser> callback= new Callback<CurrentUser>() {
-        @Override
-        public void result(CurrentUser currentUser) {
-            mCurrentUser = currentUser;
-            Log.i("mCurrentUser", mCurrentUser.toString());
+    public void viewGrades(){
+       MyGradesRequest myGradesRequest=new MyGradesRequest(txtStudentID.getText().toString(),"415",this);
 
-        }
-    };
+
+    }
+
 
 
     @Override
@@ -121,12 +136,23 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        String title="";
+        Fragment fragment=null;
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            fragment= new ProfileFragment();
         } else if (id == R.id.nav_gallery) {
-
+            fragment= new GradesFragment();
         }  else if (id == R.id.nav_share) {
+
+        }
+
+
+        clearBackStack();
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_main, fragment,title)
+                    .commit();
 
         }
 
@@ -137,5 +163,25 @@ public class MainActivity extends AppCompatActivity
 
 
 
+        private void clearBackStack() {
+            FragmentManager manager = getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() > 0) {
+                FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+                manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        }
 
+        @Override
+        public void setTitle(CharSequence title) {
+            getSupportActionBar().setTitle(title);
+        }
+
+
+    @Override
+    public void myGrades(MyGrades myGrades) {
+         if(myGrades.isSuccess()){
+             Toast.makeText(getApplicationContext(), myGrades.getContent(),
+                     Toast.LENGTH_LONG).show();
+         }
+    }
 }

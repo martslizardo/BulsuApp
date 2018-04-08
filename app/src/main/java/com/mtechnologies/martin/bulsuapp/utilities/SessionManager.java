@@ -4,6 +4,7 @@ package com.mtechnologies.martin.bulsuapp.utilities;
  * Created by martin on 3/29/18.
  */
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -55,6 +56,14 @@ public class SessionManager {
     }
 
 
+    public void profile_details(String name,List<String> details){
+        editor.putString("PROFILE_NAME",name);
+        editor.putString("PROFILE_DETEAILS",details.toString());
+    }
+
+
+
+
     public void checkLogin() {
         // Check login status
         if (!this.isLoggedIn()) {
@@ -79,6 +88,19 @@ public class SessionManager {
 
         // user email id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+
+        // return user
+        return user;
+    }
+
+
+    public HashMap<String, String> currentUser(){
+        HashMap<String, String> user = new HashMap<String, String>();
+
+        user.put("PROFILE_NAME", pref.getString("PROFILE_NAME", null));
+
+        // user email id
+        user.put("PROFILE_DETAILS", pref.getString("PROFILE_DETAILS", null));
 
         // return user
         return user;
