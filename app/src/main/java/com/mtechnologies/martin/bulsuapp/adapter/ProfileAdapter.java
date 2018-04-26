@@ -49,10 +49,16 @@ public class ProfileAdapter  extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.profile_list_row, parent, false);
         }
         TextView mJobTitleTextView = (TextView)view.findViewById(R.id.profileName);
-        TextView mJobDateTextView = (TextView)view.findViewById(R.id.profileDetails);
+        TextView profileDefinition = (TextView)view.findViewById(R.id.profileDefinition);
+        TextView profileID = (TextView)view.findViewById(R.id.profileID);
+        TextView profileAddress = (TextView)view.findViewById(R.id.profileAddress);
+        TextView profileEmail = (TextView)view.findViewById(R.id.profileEmail);
         CurrentUser applicantEvaluation = data.get(position);
         mJobTitleTextView.setText(applicantEvaluation.getCurrentuserName());
-        mJobDateTextView.setText(applicantEvaluation.getCurrentuserDetails().toString());
+        profileDefinition.setText(applicantEvaluation.getCurrentUserDefinition());
+        profileID.setText(applicantEvaluation.getCurrentUserID());
+        profileAddress.setText(applicantEvaluation.getCurrentUserAddress());
+        profileEmail.setText(applicantEvaluation.getCurrentUserEmail());
         return view;
     }
 

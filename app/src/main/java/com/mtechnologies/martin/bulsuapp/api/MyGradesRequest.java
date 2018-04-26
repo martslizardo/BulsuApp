@@ -24,8 +24,8 @@ public class MyGradesRequest implements Callback<ResponseBody> {
 
 
 
-    private MyGradesCallback mCallback;
-    public MyGradesRequest(String studentID,String term,MyGradesCallback callback){
+    private com.mtechnologies.martin.bulsuapp.utilities.Callback mCallback;
+    public MyGradesRequest(String studentID,String term,com.mtechnologies.martin.bulsuapp.utilities.Callback callback){
         this.mCallback = callback;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://myportal.bulsu.edu.ph")
@@ -52,13 +52,13 @@ public class MyGradesRequest implements Callback<ResponseBody> {
                 Log.i("header",result);
                 myGrades.setSuccess(true);
                 myGrades.setContent(Html.fromHtml(gradesResponse.getContent()).toString().trim());
-                mCallback.myGrades(myGrades);
+                mCallback.result(myGrades);
 
             }else{
                 result = response.errorBody().string();
                 Log.i("header",result);
                 myGrades.setSuccess(false);
-                mCallback.myGrades(myGrades);
+                mCallback.result(myGrades);
 
 
             }

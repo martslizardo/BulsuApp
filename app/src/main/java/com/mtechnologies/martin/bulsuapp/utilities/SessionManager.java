@@ -56,9 +56,12 @@ public class SessionManager {
     }
 
 
-    public void profile_details(String name,List<String> details){
-        editor.putString("PROFILE_NAME",name);
-        editor.putString("PROFILE_DETEAILS",details.toString());
+    public void profile(String profileID,String profileName,String profileEmail,String profilePic){
+        editor.putString("PROFILE_ID",profileID);
+        editor.putString("PROFILE_NAME",profileName);
+        editor.putString("PROFILE_EMAIL",profileEmail);
+        editor.putString("PROFILE_PIC",profilePic);
+        editor.commit();
     }
 
 
@@ -81,6 +84,24 @@ public class SessionManager {
 
     }
 
+
+    public void logoutUser(){
+        // Clearing all data from Shared Preferences
+        editor.clear();
+        editor.commit();
+
+        // After logout redirect user to Loing Activity
+        Intent i = new Intent(_context, LoginActivity.class);
+        // Closing all the Activities
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        // Add new Flag to start new Activity
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        // Staring Login Activity
+        _context.startActivity(i);
+    }
+
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
 
@@ -97,10 +118,12 @@ public class SessionManager {
     public HashMap<String, String> currentUser(){
         HashMap<String, String> user = new HashMap<String, String>();
 
+        user.put("PROFILE_ID", pref.getString("PROFILE_ID", null));
         user.put("PROFILE_NAME", pref.getString("PROFILE_NAME", null));
-
+        user.put("PROFILE_EMAIL", pref.getString("PROFILE_EMAIL", null));
+        user.put("PROFILE_PIC", pref.getString("PROFILE_PIC", null));
         // user email id
-        user.put("PROFILE_DETAILS", pref.getString("PROFILE_DETAILS", null));
+
 
         // return user
         return user;

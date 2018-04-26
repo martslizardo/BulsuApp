@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     >
     <TextView
-        android:id="@+id/profileName"
+        android:id="@+id/termName"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:textSize="16dp"
         android:textStyle="bold" />
     <TextView
-        android:id="@+id/termName"
-        android:layout_below="@id/profileName"
+        android:id="@+id/termCode"
+        android:layout_below="@id/termName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"/>
+        android:paddingTop="20dp"
+        android:layout_height="match_parent"/>
 </android.support.constraint.ConstraintLayout>

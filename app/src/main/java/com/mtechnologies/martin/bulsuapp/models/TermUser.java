@@ -7,13 +7,23 @@ import java.util.List;
  */
 
 public class TermUser {
-    private List<String> termDetails;
-
-    public List<String> getTermDetails() {
-        return termDetails;
+    public String getTerm() {
+        return term;
     }
 
-    public void setTermDetails(List<String> termDetails) {
-        this.termDetails = termDetails;
+    public void setTerm(String term) {
+        this.term = term;
     }
+
+    private String term;
+
+    public String getTermID() {
+        return termID;
+    }
+
+    public void setTermID(String termID) {
+        this.termID = termID;
+    }
+
+    private String termID;
 }

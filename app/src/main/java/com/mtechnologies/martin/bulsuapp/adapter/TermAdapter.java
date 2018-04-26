@@ -49,10 +49,11 @@ public class TermAdapter extends BaseAdapter {
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.term_row, parent, false);
         }
-        TextView mJobTitleTextView = (TextView)view.findViewById(R.id.profileName);
-        TextView mJobDateTextView = (TextView)view.findViewById(R.id.termName);
+        TextView mJobTitleTextView = (TextView)view.findViewById(R.id.termName);
+        TextView mJobDateTextView = (TextView)view.findViewById(R.id.termCode);
         TermUser applicantEvaluation = data.get(position);
-        mJobDateTextView.setText(String.valueOf(applicantEvaluation.getTermDetails().toString()));
+        mJobTitleTextView.setText(String.valueOf(applicantEvaluation.getTerm()));
+        mJobDateTextView.setText(String.valueOf(applicantEvaluation.getTermID()));
         return view;
     }
 }

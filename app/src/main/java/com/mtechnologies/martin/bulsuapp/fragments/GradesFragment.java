@@ -7,17 +7,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mtechnologies.martin.bulsuapp.R;
 import com.mtechnologies.martin.bulsuapp.adapter.ProfileAdapter;
 import com.mtechnologies.martin.bulsuapp.adapter.TermAdapter;
+import com.mtechnologies.martin.bulsuapp.api.MyGradesRequest;
 import com.mtechnologies.martin.bulsuapp.api.MyTermRequest;
 import com.mtechnologies.martin.bulsuapp.models.CurrentUser;
+import com.mtechnologies.martin.bulsuapp.models.MyGrades;
 import com.mtechnologies.martin.bulsuapp.models.TermUser;
 import com.mtechnologies.martin.bulsuapp.utilities.Callback;
+import com.mtechnologies.martin.bulsuapp.utilities.MyGradesCallback;
+import com.mtechnologies.martin.bulsuapp.utilities.SessionManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,8 +51,17 @@ public class GradesFragment extends Fragment {
         termView=view.findViewById(R.id.term);
         mAdapter=new TermAdapter(getContext(),data);
         termView.setAdapter(mAdapter);
-
+        SessionManager sessionManager=new SessionManager(getContext());
+        HashMap<String,String> currentUser=sessionManager.currentUser();
         new MyTermRequest(requestCallback,getContext());
+
+        termView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                 TextView termID=(TextView)view.findViewById(R.id.termCode);
+                viewGrades(currentUser.get("PROFILE_ID"),termID.getText().toString(),myGradesCallback);
+            }
+        });
 
 
 
@@ -57,7 +74,10 @@ public class GradesFragment extends Fragment {
             if (applicantEvaluations != null){
                 data.clear();
                 data.addAll(applicantEvaluations);
-                Log.i("Size",String.valueOf(data.size()));
+                for(int i=0;i<applicantEvaluations.size();i++){
+                    Log.i("Data",data.get(i).getTerm());
+                }
+
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -65,9 +85,31 @@ public class GradesFragment extends Fragment {
 
     };
 
+    public void viewGrades(String studentID,String termID,com.mtechnologies.martin.bulsuapp.utilities.Callback callback){
+        MyGradesRequest myGradesRequest=new MyGradesRequest(studentID,termID,callback);
+
+
+    }
 
 
 
+
+
+
+    Callback<MyGrades> myGradesCallback=new Callback<MyGrades>() {
+        @Override
+        public void result(MyGrades myGrades) {
+            if(myGrades.isSuccess()){
+//                Toast.makeText(getContext(), myGrades.getContent(),
+//                        Toast.LENGTH_LONG).show();
+                DialogFragment fragment = DialogFragment.newInstance(myGrades.getContent());
+                Bundle data=new Bundle();
+                data.putString("Grades",myGrades.getContent());
+                fragment.setArguments(data);
+                fragment.show(getFragmentManager(), "My Grades");
+            }
+        }
+    };
 
 
 }

@@ -1,5 +1,6 @@
 package com.mtechnologies.martin.bulsuapp;
 
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -20,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mtechnologies.martin.bulsuapp.api.MyGradesRequest;
@@ -33,16 +36,21 @@ import com.mtechnologies.martin.bulsuapp.utilities.MyGradesCallback;
 import com.mtechnologies.martin.bulsuapp.utilities.RetrofitUtil;
 import com.mtechnologies.martin.bulsuapp.utilities.SessionManager;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,MyGradesCallback {
+        implements NavigationView.OnNavigationItemSelectedListener {
     EditText txtStudentID;
     Button  btnGrades;
     private CurrentUser mCurrentUser;
-
+    TextView navUsername;
+    TextView navEmail;
+    ImageView navImage;
+    SessionManager session;
     int i=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        SessionManager session =new SessionManager(getApplicationContext());
+        session =new SessionManager(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +76,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        View headerView=navigationView.getHeaderView(0);
+        navUsername=(TextView)headerView.findViewById(R.id.header_usename);
+        navEmail=(TextView)headerView.findViewById(R.id.header_email);
+        navImage=(ImageView)headerView.findViewById(R.id.header_imageView);
+        HashMap<String,String> currentUser=session.currentUser();
+        Resources res=getResources();
+//        int resID=res.getIdentifier(currentUser.get("PROFILE_PIC"),"drawable",getPackageName());
+        navUsername.setText(currentUser.get("PROFILE_NAME"));
+        navEmail.setText(currentUser.get("PROFILE_EMAIL"));
+//        navImage.setImageResource(resID);
         StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -80,13 +97,15 @@ public class MainActivity extends AppCompatActivity
 //                viewGrades();
 //             }
 //        });
-//        Fragment fragment = null;
-//        fragment = new ProfileFragment();
-////HomeFragment= fragment class to launch that
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.content_main, fragment);
-//        fragmentTransaction.commit();
+        Fragment fragment = null;
+        fragment = new ProfileFragment();
+//      HomeFragment= fragment class to launch that
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.commit();
+
+
 
     }
 
@@ -107,12 +126,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-    public void viewGrades(){
-       MyGradesRequest myGradesRequest=new MyGradesRequest(txtStudentID.getText().toString(),"415",this);
-
-
-    }
 
 
 
@@ -144,6 +157,7 @@ public class MainActivity extends AppCompatActivity
             fragment= new GradesFragment();
         }  else if (id == R.id.nav_share) {
 
+            session.logoutUser();
         }
 
 
@@ -177,11 +191,5 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-    @Override
-    public void myGrades(MyGrades myGrades) {
-         if(myGrades.isSuccess()){
-             Toast.makeText(getApplicationContext(), myGrades.getContent(),
-                     Toast.LENGTH_LONG).show();
-         }
-    }
+
 }

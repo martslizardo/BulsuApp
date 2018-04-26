@@ -1,21 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/profileName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:text="1"
         android:textSize="16dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/profileDetails"
+        android:id="@+id/profileDefinition"
         android:layout_width="match_parent"
-        android:paddingTop="25dp"
-        android:layout_height="match_parent"
-        android:layout_below="@id/profileName" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_below="@id/profileName"
+        android:text="2" />
+
+    <TextView
+        android:id="@+id/profileID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:layout_below="@id/profileDefinition"
+        android:text="3"
+        />
+
+    <TextView
+        android:id="@+id/profileAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:layout_below="@id/profileID"
+        android:text="4"/>
+
+    <TextView
+        android:id="@+id/profileEmail"
+        android:layout_width="match_parent"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:layout_height="wrap_content"
+        android:paddingEnd="5dp"
+        android:layout_below="@id/profileAddress"
+        android:text="5" />
+
+</LinearLayout>

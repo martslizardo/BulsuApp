@@ -46,10 +46,17 @@ public class MyTermRequest implements Callback<ResponseBody> {
         BulsuApi bulsuApi = retrofit.create(BulsuApi.class);
         bulsuApi.myTerm().subscribe(term -> {
             List<TermUser> termUsersList =new ArrayList<>();
-            TermUser termUser=new TermUser();
-            termUser.setTermDetails(term.termDetails);
-            termUsersList.add(termUser);
-            Log.i("Size",String.valueOf(termUsersList.size()));
+            String[] myTerm=term.termDetails;
+            String[] myTermID=term.termID;
+            for(int i=0;i<myTerm.length;i++){
+                TermUser termUser=new TermUser();
+                termUser.setTermID(myTermID[i]);
+                termUser.setTerm(myTerm[i]);
+                termUsersList.add(termUser);
+                Log.i("Size",String.valueOf(termUsersList.get(i).getTerm()));
+                System.out.println(term.termDetails[i]);
+            }
+
             mCallback.result(termUsersList);
         });
     }

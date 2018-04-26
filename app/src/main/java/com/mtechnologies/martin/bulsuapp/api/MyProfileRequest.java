@@ -69,10 +69,16 @@ public class MyProfileRequest implements Callback<ResponseBody>{
         bulsuApi.myProfile().subscribe(myData->{
             System.out.println(myData.profileDetails);
             System.out.println(myData.profileName);
+            System.out.println(myData.imageSrc);
             List<CurrentUser> currentUserList =new ArrayList<>();
         CurrentUser currentUser=new CurrentUser();
-        currentUser.setCurrentuserDetails(myData.profileDetails);
         currentUser.setCurrentuserName(myData.profileName);
+        String[]profileDetails=myData.profileDetails;
+        currentUser.setCurrentUserImage(myData.imageSrc);
+        currentUser.setCurrentUserDefinition(profileDetails[0]);
+        currentUser.setCurrentUserID(profileDetails[1]);
+        currentUser.setCurrentUserAddress(profileDetails[2]);
+        currentUser.setCurrentUserEmail(profileDetails[3]);
         currentUserList.add(currentUser);
         Log.i("Size",String.valueOf(currentUserList.size()));
         mCallback.result(currentUserList);
@@ -120,7 +126,7 @@ public class MyProfileRequest implements Callback<ResponseBody>{
 
                 Dashboard page = htmlAdapter.fromHtml(html);
                 CurrentUser currentUser=new CurrentUser();
-                currentUser.setCurrentuserDetails(page.profileDetails);
+//                currentUser.setCurrentuserDetails(page.profileDetails);
                 currentUser.setCurrentuserName(page.profileName);
                 currentUserList.add(currentUser);
                 Log.i("Size",String.valueOf(currentUserList.size()));

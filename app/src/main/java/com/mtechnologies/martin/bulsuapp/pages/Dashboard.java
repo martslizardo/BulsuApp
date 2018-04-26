@@ -11,5 +11,6 @@ import pl.droidsonroids.jspoon.annotation.Selector;
 public class Dashboard {
 
     @Selector("#s1 >.princeh1") public String profileName;
-    @Selector("#s1 >p")public List<String> profileDetails;
+    @Selector("#s1 >p")public String[] profileDetails;
+    @Selector(value = ".img-responsive img-profile xcenter-element",attr="src") public String imageSrc;
 }

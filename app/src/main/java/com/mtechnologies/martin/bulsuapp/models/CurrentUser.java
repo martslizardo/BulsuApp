@@ -16,15 +16,54 @@ public class CurrentUser {
         this.currentuserName = currentuserName;
     }
 
-    public List<String> getCurrentuserDetails() {
-        return currentuserDetails;
-    }
 
-    public void setCurrentuserDetails(List<String> currentuserDetails) {
-        this.currentuserDetails = currentuserDetails;
-    }
 
     private String currentuserName;
-    private List<String> currentuserDetails;
+    private String currentUserDefinition;
+    private String currentUserID;
+    private String currentUserAddress;
+    private String currentUserEmail;
+    private String currentUserImage;
 
+    public String getCurrentUserImage() {
+        return currentUserImage;
+    }
+
+    public void setCurrentUserImage(String currentUserImage) {
+        this.currentUserImage = currentUserImage;
+    }
+
+  ;
+
+    public String getCurrentUserDefinition() {
+        return currentUserDefinition;
+    }
+
+    public void setCurrentUserDefinition(String currentUserDefinition) {
+        this.currentUserDefinition = currentUserDefinition;
+    }
+
+    public String getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(String currentUserID) {
+        this.currentUserID = currentUserID;
+    }
+
+    public String getCurrentUserAddress() {
+        return currentUserAddress;
+    }
+
+    public void setCurrentUserAddress(String currentUserAddress) {
+        this.currentUserAddress = currentUserAddress;
+    }
+
+    public String getCurrentUserEmail() {
+        return currentUserEmail;
+    }
+
+    public void setCurrentUserEmail(String currentUserEmail) {
+        this.currentUserEmail = currentUserEmail;
+    }
 }
